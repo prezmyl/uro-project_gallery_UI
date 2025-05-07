@@ -1,0 +1,22 @@
+.
+├── Detail_GUI..png
+├── diagram1.png
+├── diagram2.png
+├── images
+│   └── Scream.png
+├── NewRecord_GUI..png
+├── Overview_app.png
+├── Overview_GUI.png
+├── project_tkinter.odt
+├── project_tkinter.pdf
+├── project_UI.py
+├── Search_app.png
+├── Search_GUI..png
+├── structure.txt
+├── UI_artDetail.png
+├── UI_design_4tabs.odg
+├── UI_design.odg
+├── UI_Main.png
+└── zaloha.py
+
+2 directories, 18 files
