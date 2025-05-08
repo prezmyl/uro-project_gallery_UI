@@ -107,7 +107,7 @@ class Gallery(tk.Tk):
         if len(content) > max_len:
             widget.delete(f"1.0 + {max_len}c", "end")
 
-
+# ========== styles =============
     def create_styles(self):
         style = ttk.Style()
         style.theme_use('default')
@@ -143,6 +143,9 @@ class Gallery(tk.Tk):
                         relief="flat",
                         font=("Helvetica", 13, "bold"))
 
+
+# ============== Main UI objects ==============================
+    # ----- Main Frame with first layer of UI sub-objects -----
     def create_widgets(self):
 
         self.main_frame = tk.Frame(self, bg="white",
@@ -164,6 +167,7 @@ class Gallery(tk.Tk):
         self.status_bar.pack(side="bottom", fill="both", ipady=10)
         self.status_bar.config(text="No selection")
 
+    # -- first layer subobject = horni menu --
     def create_menu(self):
         # main menu
         bar_menu = tk.Menu(self,
@@ -194,6 +198,8 @@ class Gallery(tk.Tk):
                             activebackground="#F0F8FF",
                             activeforeground="#2F4F4F",
                            font=('Helvetica', 11, 'bold'))
+        edit_menu.add_command(label="Clear Selection", command=self._clear_selection)
+        edit_menu.add_separator()
         edit_menu.add_command(label="Delete", command=self._delete_current)
         bar_menu.add_cascade(label="Edit", menu=edit_menu)
 
@@ -206,6 +212,7 @@ class Gallery(tk.Tk):
         about_menu.add_command(label="About", command=self.show_about)
         bar_menu.add_cascade(label="About", menu=about_menu)
 
+    # -- first layer of individual subobject = notebook with Tabs --
     def create_notebook(self):
         self.notebook = ttk.Notebook(self.main_frame)
         self.notebook.pack(fill="both", expand=True)
@@ -225,6 +232,7 @@ class Gallery(tk.Tk):
         self.create_new_record_tab()
         self.create_detail_tab()
 
+    # - definition of individuals tabs -
     def create_overview_tab(self):
         # overview now -> treeView later
         overview_label = tk.Label(self.overview_tab,
@@ -322,7 +330,7 @@ class Gallery(tk.Tk):
         form_frame = tk.Frame(wrapper_frame, bg="#F0F8FF")
         form_frame.grid(row=0, column=0, sticky="nw")
 
-        # canvas zarovnany k poli
+        # canvas -> zarovnat k polli vstupu
         self.new_record_canvas = tk.Canvas(wrapper_frame, width=800, height=600, bg="#F0F8FF", bd=1, relief="solid")
         self.new_record_canvas.grid(row=0, column=1, sticky="nw", padx=(300, 300), pady=(10, 10))
 
@@ -482,6 +490,14 @@ class Gallery(tk.Tk):
 
         self.overview_tree.bind("<<TreeviewSelect>>", self._on_treeview_select)
 
+        delete_btn = tk.Button(self.detail_tab,
+                               text="Delete",
+                               command=self._delete_current,
+                               bg="#F0F8FF",
+                               fg="#2F4F4F",
+                               font=('Helvetica', 11, 'bold'))
+        delete_btn.pack(side="right", padx=20, pady=10)
+
         clear_sel_btn = tk.Button(self.detail_tab,
                                   text="Clear selection",
                                   command=self._clear_selection,
@@ -498,13 +514,7 @@ class Gallery(tk.Tk):
                                font=('Helvetica', 11, 'bold'))
         modify_btn.pack(side="right", padx=10, pady=10)
 
-        delete_btn = tk.Button(self.detail_tab,
-                               text="Delete",
-                               command=self._delete_current,
-                               bg="#F0F8FF",
-                               fg="#2F4F4F",
-                               font=('Helvetica', 11, 'bold'))
-        delete_btn.pack(side="right", padx=20, pady=10)
+
 
 
 
@@ -569,7 +579,7 @@ class Gallery(tk.Tk):
             if key in self.new_record_form:
                 widget = self.new_record_form[key]
                 if isinstance(widget, ttk.Combobox):
-                    widget.set("")  # nebo widget.set("For sale") jako vychozi
+                    widget.set("")  # pzn. nebo widget.set("For sale") jako vychozi -> rozhodnout se
                 else:
                     widget.delete(0, "end")
 
@@ -590,14 +600,7 @@ class Gallery(tk.Tk):
         self.status_bar.config(text="No selection")
         self.notebook.select(self.overview_tab)
 
-    def show_about(self):
-        messagebox.showinfo(
-            "About Gallery",
-            "Gallery Art Piece Infosystem\n"
-            "Verze 1.0\n"
-            "© 2025 Premysl Polas\n\n"
-            "Jednoducha aplikace pro evidenci uměleckych del."
-        )
+
 
     def _modify_current(self):
         sel = self.overview_tree.selection()
@@ -628,10 +631,10 @@ class Gallery(tk.Tk):
 
             self.selected_image_path = entry[6]
 
-            # Přepni na New record tab
+            # Prepnot na New record tab
             self.notebook.select(self.new_record_tab)
 
-            # Zobraz obrázek
+            # Zobrazi ten obrazek
             if self.selected_image_path:
                 try:
                     canvas_width = 800
@@ -680,6 +683,14 @@ class Gallery(tk.Tk):
 
         self.status_bar.config(text=f"Deleted record ID:{record_id}")
 
+    def show_about(self):
+        messagebox.showinfo(
+            "About Gallery",
+            "Gallery Art Piece Infosystem\n"
+            "Verze 1.0\n"
+            "© 2025 Premysl Polas\n\n"
+            "Jednoducha aplikace pro evidenci uměleckych del."
+        )
 
 if __name__=="__main__":
     app = Gallery()
